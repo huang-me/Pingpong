@@ -29,10 +29,10 @@ def ml_loop(side: str):
     # 1. Put the initialization code here
     trainX = []
     trainY = []
-    if path.exists(path.join(path.dirname(__file__),'final/model_1p.asv')) :
-        model = pickle.load(open(path.join(path.dirname(__file__),"final/model_1p.asv"), 'rb'))
-        trainX = pickle.load(open(path.join(path.dirname(__file__),"final/data_1p.pickle"), 'rb'))
-        trainY = pickle.load(open(path.join(path.dirname(__file__),"final/target_1p.pickle"), 'rb'))
+    if path.exists(path.join(path.dirname(__file__),'for_mid/model_1p.asv')) :
+        model = pickle.load(open(path.join(path.dirname(__file__),"for_mid/model_1p.asv"), 'rb'))
+        trainX = pickle.load(open(path.join(path.dirname(__file__),"for_mid/data_1p.pickle"), 'rb'))
+        trainY = pickle.load(open(path.join(path.dirname(__file__),"for_mid/target_1p.pickle"), 'rb'))
 
     ball_served = False
     datacount = 0
@@ -57,9 +57,9 @@ def ml_loop(side: str):
     def dump_files(model, data, target) :
         model = model.fit(data, target.ravel())
         # dump the files
-        pickle.dump(model,open(path.join(path.dirname(__file__),'final/model_1p.asv'), 'wb'))
-        pickle.dump(data,open(path.join(path.dirname(__file__),'final/data_1p.pickle'), 'wb'))
-        pickle.dump(target,open(path.join(path.dirname(__file__),'final/target_1p.pickle'), 'wb'))
+        pickle.dump(model,open(path.join(path.dirname(__file__),'for_mid/model_1p.asv'), 'wb'))
+        pickle.dump(data,open(path.join(path.dirname(__file__),'for_mid/data_1p.pickle'), 'wb'))
+        pickle.dump(target,open(path.join(path.dirname(__file__),'for_mid/target_1p.pickle'), 'wb'))
     
     def ml_loop_for_2P():  # as same as 1P
         if scene_info["ball_speed"][1] > 0 : 
@@ -95,9 +95,9 @@ def ml_loop(side: str):
             # Do some updating or resetting stuff
             ball_served = False
             
-            if path.exists(path.join(path.dirname(__file__),'final/model_1p.asv')) :
-                model = pickle.load(open(path.join(path.dirname(__file__),"final/model_1p.asv"), 'rb'))
+            if path.exists(path.join(path.dirname(__file__),'for_mid/model_1p.asv')) :
                 dump_files(model, trainX, trainY)
+                model = pickle.load(open(path.join(path.dirname(__file__),"for_mid/model_1p.asv"), 'rb'))
 
             # 3.2.1 Inform the game process that
             #       the ml process is ready for the next round
@@ -126,7 +126,7 @@ def ml_loop(side: str):
                 blocker = scene_info['blocker'][0]
 
                 # the very initital of the game
-                if not path.exists(path.join(path.dirname(__file__),'final/model_1p.asv')) :
+                if not path.exists(path.join(path.dirname(__file__),'for_mid/model_1p.asv')) :
                     # save the data
                     data = data + [[ballx, bally, speedx, speedy, blocker]]
                     datacount += 1
@@ -140,9 +140,9 @@ def ml_loop(side: str):
                         # fit the model
                         model = model.fit(trainX, trainY.ravel())
                         # dump the files
-                        pickle.dump(model,open(path.join(path.dirname(__file__),'final/model_1p.asv'), 'wb'))
-                        pickle.dump(trainX,open(path.join(path.dirname(__file__),'final/data_1p.pickle'), 'wb'))
-                        pickle.dump(trainY,open(path.join(path.dirname(__file__),'final/target_1p.pickle'), 'wb'))
+                        pickle.dump(model,open(path.join(path.dirname(__file__),'for_mid/model_1p.asv'), 'wb'))
+                        pickle.dump(trainX,open(path.join(path.dirname(__file__),'for_mid/data_1p.pickle'), 'wb'))
+                        pickle.dump(trainY,open(path.join(path.dirname(__file__),'for_mid/target_1p.pickle'), 'wb'))
                         datacount = 0
                         data = []
                         landing = landingPoint
